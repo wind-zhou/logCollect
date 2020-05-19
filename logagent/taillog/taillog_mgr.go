@@ -82,28 +82,28 @@ func (t *taillogMgr)run(){
 						continue
 					}
 				}
-					if isDelete{
-						//把c1对应的这个tailObj停掉,怎么停掉这个之前的协程呢？用context
-						mk:=fmt.Sprintf("%s_%s",c1.Path,c1.Topic)
-						t.tskMap[mk].cancelFunc()
-						delete(t.tskMap, mk) //删除记录
+				if isDelete{
+					//把c1对应的这个tailObj停掉,怎么停掉这个之前的协程呢？用context
+					mk:=fmt.Sprintf("%s_%s",c1.Path,c1.Topic)
+					t.tskMap[mk].cancelFunc()
+					delete(t.tskMap, mk) //删除记录
 
-						//fmt.Println("*********************************")
-						//fmt.Println("删除某个日志项后，系统存储的日志项为：")
-						//
-						//for _,v:=range t.tskMap{
-						//	fmt.Printf("%v\n",v)
-						//}
-						//fmt.Println("*********************************")
+					//fmt.Println("*********************************")
+					//fmt.Println("删除某个日志项后，系统存储的日志项为：")
+					//
+					//for _,v:=range t.tskMap{
+					//	fmt.Printf("%v\n",v)
+					//}
+					//fmt.Println("*********************************")
 
 
-					}
+				}
 			}
 
 			//2.配置删除
 			fmt.Println("新配置来了",newConf)
-			default:
-				time.Sleep(time.Second)
+		default:
+			time.Sleep(time.Second)
 
 		}
 	}
@@ -114,5 +114,5 @@ func (t *taillogMgr)run(){
 
 func NewConfChan()  chan<- []*etcd.LogEntry{
 	return tskMgr.newConfChan
-	
+
 }
